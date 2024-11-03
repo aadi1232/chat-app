@@ -1,8 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-
+import { useAuth } from "../context/AuthProvider";
+import { Link } from "react-router-dom";
 function Login() {
+  const { setAuthUser } = useAuth(); 
   const {
     register,
     handleSubmit,
@@ -23,6 +25,7 @@ function Login() {
           alert("login successful you can now chat");
         }
         localStorage.setItem("messenger", JSON.stringify(res.data));
+        setAuthUser(res.data);
       })
       .catch((error) => {
         if (error.response) {
@@ -104,9 +107,9 @@ function Login() {
           <div className="px-3">
             <p>
               Have Any Account?{" "}
-              <span className="text-blue-500 underline cursor-pointer">
-                Signup
-              </span>
+              <Link to="/signup" className="text-blue-500 underline cursor-pointer">
+              signup
+            </Link>
             </p>
           </div>
         </form>
