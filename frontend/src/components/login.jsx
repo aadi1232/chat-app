@@ -1,11 +1,40 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-function login() {
+import axios from "axios";
+
+function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const userInfo = {
+      email: data.email,
+      password: data.password,
+    };
+    console.log(userInfo); // Debugging: Check data being sent
+    axios
+      .post("http://localhost:5002/user/login", userInfo) // Ensure port matches backend
+      .then((res) => {
+        console.log("login successful:", res.data);
+        if (res.data) {
+          alert("login successful you can now chat");
+        }
+        localStorage.setItem("messenger", JSON.stringify(res.data));
+      })
+      .catch((error) => {
+        if (error.response) {
+          alert(error.response.data.message);
+        }
+      });
+  };
   return (
     <>
       <div className="flex h-screen items-center justify-center">
         <form
-          action=""
+          onSubmit={handleSubmit(onSubmit)}
           className="border border-black px-8 py-4 rounded-md space-y-3 w-auto"
         >
           <h1 className="text-blue-600 font-bold text-2xl">Messager</h1>
@@ -14,7 +43,6 @@ function login() {
             <span className="text-blue-600 font-semibold ">Account</span>
           </h1>
 
-          
           {/* Email */}
           <label className="input input-bordered flex items-center gap-2">
             <svg
@@ -26,8 +54,18 @@ function login() {
               <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
               <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
             </svg>
-            <input type="text" className="grow" placeholder="Email" />
+            <input
+              type="text"
+              className="grow"
+              placeholder="Email"
+              {...register("email", { required: true })}
+            />
           </label>
+          {errors.email && (
+            <span className="text-red-600 text-sm font-semibold">
+              This field is required
+            </span>
+          )}
           {/* Password */}
           <label className="input input-bordered flex items-center gap-2">
             <svg
@@ -42,8 +80,18 @@ function login() {
                 clipRule="evenodd"
               />
             </svg>
-            <input type="password" className="grow" placeholder="password" />
+            <input
+              type="password"
+              className="grow"
+              placeholder="password"
+              {...register("password", { required: true })}
+            />
           </label>
+          {errors.password && (
+            <span className="text-red-600 text-sm font-semibold">
+              This field is required
+            </span>
+          )}
 
           {/* Text And Button */}
           <div className="ml-1 justify-between">
@@ -67,4 +115,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;

@@ -22,6 +22,10 @@ function Signup() {
       .post("http://localhost:5002/user/signup", userInfo) // Ensure port matches backend
       .then((res) => {
         console.log("Signup successful:", res.data);
+        if (res.data) {
+          alert("Signup successful you can now login");
+        }
+        localStorage.setItem("messenger",JSON.stringify(res.data));  
       })
       .catch((err) => {
         console.error("Signup error:", err.response?.data || err.message);
@@ -97,11 +101,12 @@ function Signup() {
             })}
           />
         </label>
-        {errors.confirmpassword && errors.confirmpassword.type === "validate" && (
-          <span className="text-red-600 text-sm font-semibold">
-            Passwords do not match
-          </span>
-        )}
+        {errors.confirmpassword &&
+          errors.confirmpassword.type === "validate" && (
+            <span className="text-red-600 text-sm font-semibold">
+              Passwords do not match
+            </span>
+          )}
 
         {/* Submit Button */}
         <div className="ml-1 justify-between">
