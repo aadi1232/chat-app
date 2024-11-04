@@ -8,7 +8,7 @@ import { useAuth } from "./context/AuthProvider";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
-  const { authUser } = useAuth(); // Destructure correctly
+  const { authUser } = useAuth();
 
   return (
     <Routes>
@@ -31,7 +31,7 @@ function App() {
       {/* Signup Route */}
       <Route
         path="/signup"
-        element={authUser ? <Navigate to="/" /> : <Signup />}
+        element={  <Signup />}
       />
 
       {/* Login Route */}

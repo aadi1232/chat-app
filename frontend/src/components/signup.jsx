@@ -2,9 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth } from "../context/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 function Signup() {
-  const { setAuthUser } = useAuth(); // Use parentheses to call useAuth
+  const { setAuthUser } = useAuth(); 
+  const navigate = useNavigate();// Use parentheses to call useAuth
   const {
     register,
     handleSubmit,
@@ -21,12 +23,13 @@ function Signup() {
     };
     console.log(userInfo); // Debugging: Check data being sent
     try {
-      const res = await axios.post("http://localhost:5002/user/signup", userInfo);
+      const res = await axios.post("/api/user/signup", userInfo);
       console.log("Signup successful:", res.data);
       if (res.data) {
         alert("Signup successful! You can now log in.");
         localStorage.setItem("messenger", JSON.stringify(res.data));
         setAuthUser(res.data);
+        navigate("/login");
       }
     } catch (err) {
       console.error("Signup error:", err.response?.data || err.message);

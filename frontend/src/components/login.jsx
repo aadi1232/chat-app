@@ -18,7 +18,7 @@ function Login() {
     };
     console.log(userInfo); // Debugging: Check data being sent
     axios
-      .post("http://localhost:5002/user/login", userInfo) // Ensure port matches backend
+      .post(" /api/user/login", userInfo) // Ensure port matches backend
       .then((res) => {
         console.log("login successful:", res.data);
         if (res.data) {
