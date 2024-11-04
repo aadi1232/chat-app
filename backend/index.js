@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import userRoute from "./route/user.route.js";
+import messageRoute from "./route/message.route.js";
 import cors from "cors";
 
 dotenv.config();
@@ -33,7 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Connect to MongoDB
+ 
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to DB"))
@@ -41,6 +42,7 @@ mongoose
 
 // Routes
 app.use("/api/user", userRoute);
+app.use("/api/message", messageRoute);
 
 // Start Server
 app.listen(PORT, () => {

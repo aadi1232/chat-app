@@ -26,7 +26,7 @@ function Signup() {
       const res = await axios.post("/api/user/signup", userInfo);
       console.log("Signup successful:", res.data);
       if (res.data) {
-        alert("Signup successful! You can now log in.");
+        alert("Signup successful! You can Chat.");
         localStorage.setItem("messenger", JSON.stringify(res.data));
         setAuthUser(res.data);
         navigate("/login");
