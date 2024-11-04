@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-function UserGetAllUsers() {
+function useGetAllUsers() {
   const [allUsers, setAllUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,30 +15,36 @@ function UserGetAllUsers() {
         const token = Cookies.get("jwt");
         if (!token) {
           setError("No token found in cookies");
-          setLoading(false); // Added to stop loading when no token is found
+          setLoading(false);
           return;
         }
-        const response = await axios.get(
-          "/api/user/getUserProfile",
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setAllUsers(response.data);
-        console.log(response.data);
+
+        const response = await axios.get("/api/user/getUserProfile", {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Assuming response.data has a structure like { users: [...] }
+        const usersArray = response.data.users;
+        if (Array.isArray(usersArray)) {
+          setAllUsers(usersArray); // Set only the users array
+        } else {
+          setError("Invalid response structure");
+        }
       } catch (error) {
-        console.log("Error in useGetAllUsers: " + error);
+        console.error("Error in useGetAllUsers:", error);
         setError(error.message);
       } finally {
-        setLoading(false); // Moved to finally to ensure loading state is updated
+        setLoading(false);
       }
     };
+
     getUsers();
   }, []);
+
   return [allUsers, loading, error];
 }
 
-export default UserGetAllUsers;
+export default useGetAllUsers;
