@@ -1,8 +1,16 @@
 import React from "react";
 import useConversation from "../../stateManage/useConversation.jsx";
+ 
 function Chatuser() {
   const { selectedConversation } = useConversation();
   
+ 
+  if (!selectedConversation || selectedConversation.name == null) {
+    return <div className=" ">
+    <h1 className="text-3xl flex items-center justify-center font-bold font-sans text-blue-300  ">Welcome <span> </span> </h1>
+      <h1 className="text-3xl flex items-center justify-center font-semibold text-blue-300  ">Please select a conversation to start a chat</h1>
+    </div>;
+  }
 
   return (
     <>
