@@ -1,20 +1,32 @@
-import React from 'react'
+import React from "react";
+import useGetMessage from "../../context/useGetMessage.jsx";
+import Loading from "../../components/Loading.jsx";
+import Message from "./Message.jsx"; // Renamed to avoid confusion
 
 function Messages() {
+  const { messages, loading } = useGetMessage();
+  console.log(messages);
   return (
-    <div>
-          <div className="p-4">
-      <div className="chat chat-start">
-        <div className="chat-bubble chat-bubble-info">Calm down, Anakin.</div>
+    <>
+      <div style={{ minHeight: "calc(92vh - 10vh)" }} className="">
+      {loading ? (
+        <Loading />
+      ) : (
+        messages.length > 0 &&
+        messages.map((message) => {
+          return <Message key={message._id} message={message} />;
+        })
+      )}
+        {!loading && messages.length === 0 && (
+          <div>
+            <p className="flex text-center justify-center text-3xl text-blue-300 m-[30%] font-bold font-sans">
+              Say Hi to Start Chatting
+            </p>
+          </div>
+        )}
       </div>
-      <div className="chat chat-end">
-        <div className="chat-bubble chat-bubble-accent">
-          That's never been done in the history of the Jedi. It's insulting!
-        </div>
-      </div>
-    </div>
-    </div>
-  )
+    </>
+  );
 }
 
-export default Messages
+export default Messages;

@@ -1,47 +1,23 @@
 import React from "react";
-import Messages from "./Messages";
 
-function Message() {
+function Message({ message }) {
+
+   const autUser = JSON.parse(localStorage.getItem("messenger"));
+    const itsme = message.senderId === autUser.user._id;
+   const chatName = itsme?"chat-end":"chat-start";
+   const chatColor = itsme?"bg-blue-400":"";
+
   return (
-  <div style={{ maxHeight: "calc(92vh - 10vh)" }} className="overflow-y-auto flex-aadi p-2">
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
-    <Messages />
- 
-
-      
+    <>
+    <div className="p-4">
+    <div className={`chat ${chatName}`}>
+        <div className={`chat-bubble text-white ${chatColor}`}>
+          {message.message}
+        </div>
+      </div>
+    </div>
+    </>
     
-  </div>
   );
 }
 

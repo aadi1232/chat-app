@@ -34,7 +34,6 @@ app.use((req, res, next) => {
   next();
 });
 
- 
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("Connected to DB"))

@@ -5,10 +5,11 @@ const secureRoute = async (req, res, next) => {
   try {
     // Retrieve token from cookies
     const token = req.cookies.jwt;
-    console.log("JWT token received:", token); // Debugging: Check if the token is present
 
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized: No token provided" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_TOKEN);

@@ -34,7 +34,7 @@ function useGetAllUsers() {
           setError("Invalid response structure");
         }
       } catch (error) {
-        console.error("Error in useGetAllUsers:", error);
+        console.log("Error in useGetAllUsers:", error);
         setError(error.message);
       } finally {
         setLoading(false);
